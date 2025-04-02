@@ -102,7 +102,7 @@ function switchView(viewName) {
 function resetAccessDisplay() {
   accessStatus.className = 'pending';
   accessStatus.innerHTML = `
-    <i class="fas fa-question-circle status-icon"></i>
+    <i class="fas fa-id-card status-icon"></i>
     <h2>Waiting for card...</h2>
   `;
   accessDetails.classList.add('hidden');
