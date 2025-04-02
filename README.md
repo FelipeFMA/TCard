@@ -1,4 +1,6 @@
+<div align="center">
 # TCard | Premium Access Control System
+</div>
 <div align="center">
   <img src="https://img.shields.io/badge/College%20Project-UNIFRAN-8E9BAE?style=for-the-badge" alt="UNIFRAN College Project"/>
   <img src="https://img.shields.io/badge/Status-In%20Development-3BB77E?style=for-the-badge" alt="Status: In Development"/>
