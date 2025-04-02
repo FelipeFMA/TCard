@@ -1,25 +1,37 @@
-# Arduino RFID Access Control System
+# TCard | Premium Access Control System
+<div align="center">
+  <img src="https://img.shields.io/badge/College%20Project-UNIFRAN-8E9BAE?style=for-the-badge" alt="UNIFRAN College Project"/>
+  <img src="https://img.shields.io/badge/Status-In%20Development-3BB77E?style=for-the-badge" alt="Status: In Development"/>
+  <img src="https://img.shields.io/badge/License-MIT-5F6773?style=for-the-badge" alt="License: MIT"/>
+</div>
 
-A modern web interface for managing RFID card access control using Arduino UNO and RFID-RC522 module.
+<p align="center">
+  <img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/svgs/solid/credit-card.svg" width="100" height="100" style="filter: drop-shadow(0 0 0.5rem rgba(142, 155, 174, 0.5));" alt="TCard Logo"/>
+</p>
 
-## Features
+## 📋 Overview
+**TCard** is a premium RFID access control system developed as a learning project at **UNIFRAN** (Universidade de Franca). It combines Arduino hardware with a modern web interface to create a feature-rich door access management solution.
 
-- Beautiful and responsive web interface
-- Two user roles: ADMIN and USER
-- Real-time access events via WebSockets
-- User management (add, edit, delete)
-- SQLite database for user storage
-- Arduino integration via Serial port
+## ✨ Features
 
-## Hardware Requirements
+- 🎨 **Elegant UI** - Beautiful, responsive interface with light/dark modes
+- 👤 **Role-based Access** - Different permissions for admins and users
+- ⚡ **Real-time Updates** - Instant access notifications via WebSockets
+- 📊 **User Management** - Easily add, edit and remove users
+- 🔒 **Security** - RFID card-based authentication system
+- 💻 **Cross-platform** - Works on any device with a web browser
 
-- Arduino UNO
-- RFID-RC522 module
-- Connection wires
+## 🛠️ Technology Stack
 
-## Hardware Setup
+| Component | Technologies |
+|-----------|-------------|
+| **Frontend** | HTML5, CSS3, JavaScript, Socket.io |
+| **Backend** | Node.js, Express, SQLite3, Socket.io |
+| **Hardware** | Arduino UNO, RFID-RC522 Module |
 
-Connect the RFID-RC522 module to Arduino UNO as follows:
+## 🔌 Hardware Setup
+
+Connect the RFID-RC522 module to Arduino UNO:
 
 | RFID-RC522 Pin | Arduino UNO Pin |
 |----------------|-----------------|
@@ -32,62 +44,58 @@ Connect the RFID-RC522 module to Arduino UNO as follows:
 | RST            | 9               |
 | 3.3V           | 3.3V            |
 
-## Software Setup
+## 🚀 Getting Started
 
-### Arduino
-
-1. Upload the provided Arduino sketch (`arduino/rfid_access_control.ino`) to your Arduino UNO.
-
-### Server
-
-1. Make sure Node.js is installed on your computer.
-2. Navigate to the server directory:
+### Arduino Setup
+1. Upload the sketch to your Arduino:
    ```
-   cd arduino-rfid-access/server
+   arduino/rfid_access_control/rfid_access_control.ino
    ```
-3. Install dependencies:
-   ```
+
+### Server Setup
+1. Install dependencies:
+   ```bash
+   cd server
    npm install
    ```
-4. Start the server:
+
+2. Start the server:
+   ```bash
+   npm run dev
    ```
-   node index.js
+
+3. Access the web interface:
+   ```
+   http://localhost:3000
    ```
 
-### Access the Web Interface
+## 📱 Usage
 
-Open your browser and go to http://localhost:3000
+### User Mode
+- Scan your RFID card to request access
+- View your profile and access history
 
-## Usage
+### Admin Mode
+- Manage users (add, edit, deactivate, delete)
+- Monitor access logs in real-time
+- Configure system settings
 
-### USER Mode
+## 🎓 Academic Purpose
 
-- Shows "Entrance allowed" or "Entrance not allowed" when a card is scanned
-- Displays user information for authorized users
-- Click "Scan Card" button to manually trigger a scan
+This project was developed as part of the curriculum at **UNIFRAN** (Universidade de Franca) to demonstrate the integration of hardware and software technologies. It serves as a learning tool for:
 
-### ADMIN Mode
+- Full-stack web development
+- IoT and hardware integration
+- User interface design
+- Database management
+- Real-time communications
 
-- View all registered users
-- Add new users with associated RFID cards
-- Edit existing user information
-- Activate/deactivate user access
-- Delete users
+## 📄 License
 
-## Adding New Users
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-1. Switch to ADMIN mode
-2. Click "Add New User" button
-3. Fill in user details
-4. To scan a card for the ID, click the "Scan" button next to the Card ID field
-5. Click "Save" to add the user
+---
 
-## Troubleshooting
-
-- If the Arduino is not detected, ensure it's properly connected via USB
-- The server automatically detects available serial ports
-- Check the console for error messages
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details. 
+<div align="center">
+  <p>Developed with ❤️ as a learning project at UNIFRAN</p>
+</div> 
