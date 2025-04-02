@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RFID Access Control</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <nav>
+      <div class="logo">
+        <i class="fas fa-id-card"></i>
+        <h1>RFID Access Control</h1>
+      </div>
+      <div class="nav-buttons">
+        <button id="btn-user-mode" class="active"><i class="fas fa-user"></i> User Mode</button>
+        <button id="btn-admin-mode"><i class="fas fa-user-shield"></i> Admin Mode</button>
+      </div>
+    </nav>
+    
+    <main>
+      <!-- User View -->
+      <section id="user-view" class="view active">
+        <div class="card-status">
+          <div id="access-status" class="pending">
+            <i class="fas fa-question-circle status-icon"></i>
+            <h2>Waiting for card...</h2>
+          </div>
+          <div class="scan-instruction">
+            <p>Present your RFID card to the reader</p>
+            <button id="btn-scan-card" class="button-primary">
+              <i class="fas fa-id-card"></i> Scan Card
+            </button>
+          </div>
+        </div>
+        <div id="access-details" class="hidden">
+          <div class="user-info">
+            <div class="avatar">
+              <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="details">
+              <h3 id="user-name">User Name</h3>
+              <p id="card-id">Card ID: <span>Unknown</span></p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Admin View -->
+      <section id="admin-view" class="view">
+        <div class="admin-controls">
+          <h2><i class="fas fa-users-cog"></i> User Management</h2>
+          <button id="btn-add-user" class="button-primary">
+            <i class="fas fa-user-plus"></i> Add New User
+          </button>
+        </div>
+        
+        <div class="user-list-container">
+          <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" id="search-users" placeholder="Search users...">
+          </div>
+          
+          <table id="user-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Card ID</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="user-list">
+              <!-- Users will be loaded here dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    
+    <!-- Modal for adding/editing users -->
+    <div id="user-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="modal-title">Add New User</h3>
+          <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="user-form">
+            <input type="hidden" id="user-id">
+            <div class="form-group">
+              <label for="user-name-input">Name:</label>
+              <input type="text" id="user-name-input" required>
+            </div>
+            <div class="form-group">
+              <label for="card-id-input">Card ID:</label>
+              <div class="card-id-input-container">
+                <input type="text" id="card-id-input" required>
+                <button type="button" id="btn-scan-for-id" class="button-secondary">
+                  <i class="fas fa-id-card"></i> Scan
+                </button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="role-input">Role:</label>
+              <select id="role-input">
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="active-input">Active:</label>
+              <div class="toggle-switch">
+                <input type="checkbox" id="active-input" checked>
+                <label for="active-input"></label>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="close-modal button-secondary">Cancel</button>
+              <button type="submit" class="button-primary">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Modal for confirmation -->
+    <div id="confirm-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Confirm Action</h3>
+          <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p id="confirm-message">Are you sure you want to delete this user?</p>
+          <div class="form-actions">
+            <button type="button" class="close-modal button-secondary">Cancel</button>
+            <button type="button" id="confirm-action" class="button-danger">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Notification system -->
+    <div id="notification-container"></div>
+  </div>
+  
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="app.js"></script>
+</body>
+</html> 
