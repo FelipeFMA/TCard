@@ -5,10 +5,6 @@
   <img src="https://img.shields.io/badge/License-MIT-5F6773?style=for-the-badge" alt="License: MIT"/>
 </div>
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/svgs/solid/credit-card.svg" width="100" height="100" style="filter: drop-shadow(0 0 0.5rem rgba(142, 155, 174, 0.5));" alt="TCard Logo"/>
-</p>
-
 ## 📋 Overview
 **TCard** is a premium RFID access control system developed as a learning project at **UNIFRAN** (Universidade de Franca). It combines Arduino hardware with a modern web interface to create a feature-rich door access management solution.
 
@@ -69,7 +65,7 @@ Connect the RFID-RC522 module to Arduino UNO:
    http://localhost:3000
    ```
 
-## 📱 Usage
+## 🧑‍💻 Usage
 
 ### User Mode
 - Scan your RFID card to request access
