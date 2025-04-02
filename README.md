@@ -13,6 +13,41 @@
 ## 📋 Overview
 **TCard** is a premium RFID access control system developed as a learning project at **UNIFRAN** (Universidade de Franca). It combines Arduino hardware with a modern web interface to create a feature-rich door access management solution.
 
+## 🏗️ System Architecture
+
+### Hardware Layer
+The system's hardware component is built around an **Arduino UNO** microcontroller interfaced with an **MFRC522 RFID** reader module. The Arduino continuously polls for RFID card presence and communicates with the server via a serial connection at 9600 baud rate.
+
+### Communication Layer
+The system implements a bidirectional serial communication protocol between the Arduino and Node.js server:
+- **Arduino → Server**: Sends `CARD:{UID}` messages when cards are scanned
+- **Server → Arduino**: Returns `GRANTED` or `DENIED` access commands
+
+### Application Layer
+- **Backend**: A Node.js/Express server that:
+  - Manages serial communication with Arduino
+  - Implements RESTful API endpoints for user management
+  - Persists data in SQLite3 through structured SQL queries
+  - Broadcasts real-time events using Socket.io
+
+- **Frontend**: A responsive single-page application using:
+  - Vanilla JavaScript with event-driven architecture
+  - CSS3 with Flexbox/Grid for responsive layouts
+  - WebSocket connections for real-time updates
+  - Local browser storage for user preferences
+
+### Database Schema
+The SQLite database implements a structured user management system:
+```sql
+CREATE TABLE users (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  cardId TEXT UNIQUE NOT NULL,
+  role TEXT NOT NULL,
+  active INTEGER NOT NULL DEFAULT 1
+);
+```
+
 ## ✨ Features
 
 - 🎨 **Elegant UI** - Beautiful, responsive interface with light/dark modes
@@ -44,6 +79,28 @@ Connect the RFID-RC522 module to Arduino UNO:
 | GND            | GND             |
 | RST            | 9               |
 | 3.3V           | 3.3V            |
+
+## 💾 Technical Implementation
+
+### RFID Card Detection
+The Arduino sketch continuously polls for RFID cards using the MFRC522 library. When a card is detected:
+1. The UID is read and formatted as a hexadecimal string
+2. A `CARD:{UID}` message is sent via serial to the server
+3. The system waits for server response to grant/deny access
+
+### Server-side Authentication
+1. Incoming card data is parsed from serial data buffer using string manipulation
+2. Card UID is validated against the database with prepared SQL statements
+3. Authentication result is transmitted to both:
+   - Arduino (for physical access control)
+   - Web clients (via Socket.io for real-time updates)
+
+### RESTful API
+The server exposes a complete REST API for user management:
+- `GET /api/users` - List all users
+- `POST /api/users` - Create new user
+- `PUT /api/users/:id` - Update user details
+- `DELETE /api/users/:id` - Remove a user
 
 ## 🚀 Getting Started
 
