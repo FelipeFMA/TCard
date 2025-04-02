@@ -101,6 +101,7 @@ The server exposes a complete REST API for user management:
 - `POST /api/users` - Create new user
 - `PUT /api/users/:id` - Update user details
 - `DELETE /api/users/:id` - Remove a user
+- `GET /api/scan-card` - Send a scan request to the Arduino
 
 ## 🚀 Getting Started
 
