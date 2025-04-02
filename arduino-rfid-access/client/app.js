@@ -554,17 +554,9 @@ function showNotification(message, type = 'info') {
     <div class="notification-message">
       ${message}
     </div>
-    <button class="notification-close">&times;</button>
   `;
   
   notificationContainer.appendChild(notification);
-  
-  notification.querySelector('.notification-close').addEventListener('click', () => {
-    notification.style.animation = 'notificationFadeOut 0.3s forwards';
-    setTimeout(() => {
-      notification.remove();
-    }, 300);
-  });
   
   setTimeout(() => {
     if (notification.parentNode) {
