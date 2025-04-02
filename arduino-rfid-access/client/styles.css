@@ -1,7 +1,7 @@
 :root {
   --primary-color: #4361EE;
   --primary-dark: #3A56D4;
-  --primary-gradient: linear-gradient(135deg, #4361EE, #3A0CA3);
+  --primary-gradient: linear-gradient(to right, #4361EE, #3A56D4);
   --secondary-color: #6B7280;
   --success-color: #10B981;
   --success-gradient: linear-gradient(135deg, #10B981, #059669);
@@ -121,11 +121,12 @@ nav {
 
 .logo h1 {
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 700;
   background: var(--primary-gradient);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  text-shadow: 0 0 1px rgba(67, 97, 238, 0.1);
 }
 
 .nav-buttons {
