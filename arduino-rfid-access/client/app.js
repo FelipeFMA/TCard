@@ -6,6 +6,7 @@ const userView = document.getElementById('user-view');
 const adminView = document.getElementById('admin-view');
 const btnUserMode = document.getElementById('btn-user-mode');
 const btnAdminMode = document.getElementById('btn-admin-mode');
+const btnDarkMode = document.getElementById('btn-dark-mode');
 const accessStatus = document.getElementById('access-status');
 const accessDetails = document.getElementById('access-details');
 const userName = document.getElementById('user-name');
@@ -34,10 +35,12 @@ let currentUser = null;
 let isEditMode = false;
 let isScanningForId = false;
 let actionToConfirm = null;
+let isDarkMode = localStorage.getItem('darkMode') === 'true';
 
 // Event Listeners
 btnUserMode.addEventListener('click', () => switchView('user'));
 btnAdminMode.addEventListener('click', () => switchView('admin'));
+btnDarkMode.addEventListener('click', toggleDarkMode);
 btnAddUser.addEventListener('click', () => openUserModal());
 btnScanForId.addEventListener('click', startScanningForId);
 searchUsers.addEventListener('input', filterUsers);
@@ -68,8 +71,18 @@ socket.on('disconnect', () => {
 
 // Initialize app
 loadUsers();
+applyDarkModeIfNeeded();
 
 // Functions
+function applyDarkModeIfNeeded() {
+  if (isDarkMode) {
+    document.body.classList.add('dark-mode');
+    btnDarkMode.classList.add('active');
+    btnDarkMode.querySelector('i').classList.remove('fa-moon');
+    btnDarkMode.querySelector('i').classList.add('fa-sun');
+  }
+}
+
 function switchView(viewName) {
   if (viewName === 'user') {
     userView.classList.add('active');
@@ -443,4 +456,21 @@ function showNotification(message, type = 'info') {
       }, 300);
     }
   }, 5000);
+}
+
+function toggleDarkMode() {
+  isDarkMode = !isDarkMode;
+  localStorage.setItem('darkMode', isDarkMode);
+  
+  if (isDarkMode) {
+    document.body.classList.add('dark-mode');
+    btnDarkMode.classList.add('active');
+    btnDarkMode.querySelector('i').classList.remove('fa-moon');
+    btnDarkMode.querySelector('i').classList.add('fa-sun');
+  } else {
+    document.body.classList.remove('dark-mode');
+    btnDarkMode.classList.remove('active');
+    btnDarkMode.querySelector('i').classList.remove('fa-sun');
+    btnDarkMode.querySelector('i').classList.add('fa-moon');
+  }
 } 
