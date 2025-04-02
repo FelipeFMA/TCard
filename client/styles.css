@@ -1199,13 +1199,36 @@ tbody tr:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  border-radius: var(--radius);
   transition: var(--transition-normal);
 }
 
 .close-modal:hover {
   color: var(--danger-color);
   background-color: rgba(161, 122, 122, 0.1);
+  border-radius: var(--radius);
+}
+
+/* Override close-modal styles when used with button-secondary */
+.close-modal.button-secondary {
+  width: auto;
+  height: auto;
+  background: var(--danger-gradient);
+  border: 1px solid var(--danger-color);
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  display: inline-flex;
+  box-shadow: var(--shadow-sm),
+    inset 1px 1px 1px rgba(255, 255, 255, 0.3),
+    inset -1px -1px 1px rgba(0, 0, 0, 0.05);
+  color: white;
+}
+
+.close-modal.button-secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+  color: white;
+  background: var(--danger-gradient);
 }
 
 .modal-body {
