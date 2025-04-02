@@ -302,6 +302,8 @@ button:active::after {
   background: linear-gradient(135deg, #E5E9F0, #D5DBE3);
   transform: translateY(-2px);
   box-shadow: var(--shadow);
+  color: #2C3D50;
+  font-weight: 600;
 }
 
 .nav-buttons button.active {
