@@ -21,7 +21,6 @@ const userIdInput = document.getElementById('user-id');
 const userNameInput = document.getElementById('user-name-input');
 const cardIdInput = document.getElementById('card-id-input');
 const roleInput = document.getElementById('role-input');
-const activeInput = document.getElementById('active-input');
 const btnScanForId = document.getElementById('btn-scan-for-id');
 const confirmModal = document.getElementById('confirm-modal');
 const confirmMessage = document.getElementById('confirm-message');
@@ -189,7 +188,7 @@ function renderUsers() {
   if (users.length === 0) {
     userList.innerHTML = `
       <tr>
-        <td colspan="5" class="text-center">No users found</td>
+        <td colspan="4" class="text-center">No users found</td>
       </tr>
     `;
     return;
@@ -201,11 +200,6 @@ function renderUsers() {
       <td>${user.name}</td>
       <td>${user.cardId}</td>
       <td>${user.role}</td>
-      <td>
-        <span class="status-badge ${user.active ? 'status-active' : 'status-inactive'}">
-          ${user.active ? 'Active' : 'Inactive'}
-        </span>
-      </td>
       <td>
         <div class="user-actions">
           <button class="edit" data-id="${user.id}" title="Edit">
@@ -249,7 +243,7 @@ function filterUsers() {
   if (filteredUsers.length === 0) {
     userList.innerHTML = `
       <tr>
-        <td colspan="5" class="text-center">No matching users found</td>
+        <td colspan="4" class="text-center">No matching users found</td>
       </tr>
     `;
     return;
@@ -261,11 +255,6 @@ function filterUsers() {
       <td>${user.name}</td>
       <td>${user.cardId}</td>
       <td>${user.role}</td>
-      <td>
-        <span class="status-badge ${user.active ? 'status-active' : 'status-inactive'}">
-          ${user.active ? 'Active' : 'Inactive'}
-        </span>
-      </td>
       <td>
         <div class="user-actions">
           <button class="edit" data-id="${user.id}" title="Edit">
@@ -300,12 +289,10 @@ function openUserModal(user = null) {
     userNameInput.value = user.name;
     cardIdInput.value = user.cardId;
     roleInput.value = user.role;
-    activeInput.checked = user.active;
   } else {
     modalTitle.textContent = 'Add New User';
     userForm.reset();
     userIdInput.value = '';
-    activeInput.checked = true;
   }
   
   userModal.classList.add('open');
@@ -332,7 +319,7 @@ async function handleUserFormSubmit(event) {
     name: userNameInput.value,
     cardId: cardIdInput.value,
     role: roleInput.value,
-    active: activeInput.checked
+    active: true
   };
   
   try {
