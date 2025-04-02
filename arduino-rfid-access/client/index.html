@@ -3,20 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RFID Access Control</title>
+  <title>TCard | Premium Access Control</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div id="app">
     <nav>
       <div class="logo">
-        <i class="fas fa-id-card"></i>
-        <h1>RFID Access Control</h1>
+        <div class="logo-icon">
+          <i class="fas fa-credit-card"></i>
+        </div>
+        <h1>TCard</h1>
+        <span class="tagline">Premium Access</span>
       </div>
       <div class="nav-buttons">
-        <button id="btn-user-mode" class="active"><i class="fas fa-user"></i> User Mode</button>
-        <button id="btn-admin-mode"><i class="fas fa-user-shield"></i> Admin Mode</button>
+        <button id="btn-user-mode" class="active"><i class="fas fa-user"></i> Access</button>
+        <button id="btn-admin-mode"><i class="fas fa-user-shield"></i> Management</button>
       </div>
     </nav>
     
@@ -24,12 +30,16 @@
       <!-- User View -->
       <section id="user-view" class="view active">
         <div class="card-status">
-          <div id="access-status" class="pending">
-            <i class="fas fa-id-card status-icon"></i>
-            <h2>Waiting for card...</h2>
-          </div>
-          <div class="scan-instruction">
-            <p>Present your RFID card to the reader</p>
+          <div class="card-status-inner">
+            <div id="access-status" class="pending">
+              <div class="status-icon-wrapper">
+                <i class="fas fa-credit-card status-icon"></i>
+              </div>
+              <h2>Awaiting Credentials</h2>
+            </div>
+            <div class="scan-instruction">
+              <p>Please present your TCard to the reader</p>
+            </div>
           </div>
         </div>
         <div id="access-details" class="hidden">
@@ -82,7 +92,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h3 id="modal-title">Add New User</h3>
-          <button class="close-modal">&times;</button>
+          <button class="close-modal"><i class="fas fa-times"></i></button>
         </div>
         <div class="modal-body">
           <form id="user-form">
@@ -96,7 +106,7 @@
               <div class="card-id-input-container">
                 <input type="text" id="card-id-input" required>
                 <button type="button" id="btn-scan-for-id" class="button-secondary">
-                  <i class="fas fa-id-card"></i> Scan
+                  <i class="fas fa-credit-card"></i> Scan
                 </button>
               </div>
             </div>
@@ -121,7 +131,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h3>Confirm Action</h3>
-          <button class="close-modal">&times;</button>
+          <button class="close-modal"><i class="fas fa-times"></i></button>
         </div>
         <div class="modal-body">
           <p id="confirm-message">Are you sure you want to delete this user?</p>

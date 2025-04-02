@@ -97,10 +97,19 @@ function switchView(viewName) {
 function resetAccessDisplay() {
   accessStatus.className = 'pending';
   accessStatus.innerHTML = `
-    <i class="fas fa-id-card status-icon"></i>
-    <h2>Please scan your card</h2>
+    <div class="status-icon-wrapper">
+      <i class="fas fa-credit-card status-icon"></i>
+    </div>
+    <h2>Awaiting Credentials</h2>
   `;
   accessDetails.classList.add('hidden');
+  
+  // Remove access-granted class from card-status and user-view
+  const cardStatusElement = document.querySelector('.card-status');
+  if (cardStatusElement) {
+    cardStatusElement.classList.remove('access-granted');
+  }
+  userView.classList.remove('access-granted');
 }
 
 function requestCardScan() {
@@ -137,13 +146,22 @@ function handleAccessEvent(event) {
     return;
   }
   
+  // Get the card status element
+  const cardStatusElement = document.querySelector('.card-status');
+  
   if (event.granted) {
     console.log('Access granted for user:', event.userData);
     accessStatus.className = 'allowed';
     accessStatus.innerHTML = `
-      <i class="fas fa-check-circle status-icon"></i>
+      <div class="status-icon-wrapper">
+        <i class="fas fa-check-circle status-icon"></i>
+      </div>
       <h2>Access Granted</h2>
     `;
+    
+    // Add the access-granted class to the card and the user view
+    cardStatusElement.classList.add('access-granted');
+    userView.classList.add('access-granted');
     
     userName.textContent = event.userData.name;
     cardId.innerHTML = `Card ID: <span>${event.userData.cardId}</span>`;
@@ -152,9 +170,15 @@ function handleAccessEvent(event) {
     console.log('Access denied for card:', event.userData);
     accessStatus.className = 'denied';
     accessStatus.innerHTML = `
-      <i class="fas fa-times-circle status-icon"></i>
+      <div class="status-icon-wrapper">
+        <i class="fas fa-times-circle status-icon"></i>
+      </div>
       <h2>Access Denied</h2>
     `;
+    
+    // Remove the access-granted class if it exists
+    cardStatusElement.classList.remove('access-granted');
+    userView.classList.remove('access-granted');
     
     accessDetails.classList.add('hidden');
   }
@@ -163,6 +187,9 @@ function handleAccessEvent(event) {
   setTimeout(() => {
     if (userView.classList.contains('active')) {
       resetAccessDisplay();
+      // Also remove the access-granted class
+      cardStatusElement.classList.remove('access-granted');
+      userView.classList.remove('access-granted');
     }
   }, 5000);
 }
