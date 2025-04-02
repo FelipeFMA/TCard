@@ -38,7 +38,6 @@ let actionToConfirm = null;
 // Event Listeners
 btnUserMode.addEventListener('click', () => switchView('user'));
 btnAdminMode.addEventListener('click', () => switchView('admin'));
-btnScanCard.addEventListener('click', requestCardScan);
 btnAddUser.addEventListener('click', () => openUserModal());
 btnScanForId.addEventListener('click', startScanningForId);
 searchUsers.addEventListener('input', filterUsers);
@@ -116,14 +115,22 @@ function requestCardScan() {
 }
 
 function handleAccessEvent(event) {
+  console.log('Received access event:', event);
+  
   if (isScanningForId) {
-    cardIdInput.value = event.userData.cardId;
-    isScanningForId = false;
-    showNotification('Card ID scanned successfully', 'success');
+    console.log('Adding card to form:', event.userData.cardId);
+    const scannedCardId = event.userData && event.userData.cardId ? event.userData.cardId : null;
+    
+    if (scannedCardId) {
+      cardIdInput.value = scannedCardId;
+      isScanningForId = false;
+      showNotification('Card ID scanned successfully', 'success');
+    }
     return;
   }
   
   if (event.granted) {
+    console.log('Access granted for user:', event.userData);
     accessStatus.className = 'allowed';
     accessStatus.innerHTML = `
       <i class="fas fa-check-circle status-icon"></i>
@@ -134,6 +141,7 @@ function handleAccessEvent(event) {
     cardId.innerHTML = `Card ID: <span>${event.userData.cardId}</span>`;
     accessDetails.classList.remove('hidden');
   } else {
+    console.log('Access denied for card:', event.userData);
     accessStatus.className = 'denied';
     accessStatus.innerHTML = `
       <i class="fas fa-times-circle status-icon"></i>

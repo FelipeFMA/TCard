@@ -67,15 +67,29 @@ function connectToArduino(portPath) {
 
   port.on('data', (data) => {
     const dataString = data.toString().trim();
+    console.log('Raw data received:', dataString);
     buffer += dataString;
     
-    if (buffer.includes('\n')) {
-      const lines = buffer.split('\n');
-      buffer = lines.pop(); // Keep the incomplete line
+    // Process buffer if it contains a newline or if it contains CARD:
+    if (buffer.includes('\n') || buffer.includes('CARD:')) {
+      let lines = [];
+      
+      if (buffer.includes('\n')) {
+        lines = buffer.split('\n');
+        buffer = lines.pop(); // Keep the incomplete line
+      } else {
+        // If no newline but contains CARD:, treat the whole buffer as a line
+        lines = [buffer];
+        buffer = '';
+      }
+      
+      console.log('Processed lines:', lines);
       
       lines.forEach(line => {
-        if (line.startsWith('CARD:')) {
-          const cardId = line.replace('CARD:', '').trim();
+        console.log('Processing line:', line);
+        if (line.includes('CARD:')) {
+          const cardId = line.substring(line.indexOf('CARD:') + 5).trim();
+          console.log('Card ID detected:', cardId);
           checkCardAccess(cardId);
         }
       });
@@ -88,6 +102,7 @@ function connectToArduino(portPath) {
 }
 
 function checkCardAccess(cardId) {
+  console.log('Checking access for card:', cardId);
   db.get('SELECT * FROM users WHERE cardId = ? AND active = 1', [cardId], (err, user) => {
     if (err) {
       console.error('Database error:', err);
@@ -99,7 +114,7 @@ function checkCardAccess(cardId) {
       console.log(`Access granted to ${user.name}`);
       sendAccessResponse(true, user);
     } else {
-      console.log(`Access denied for card ${cardId}`);
+      console.log(`Access denied for card ${cardId} - User not found or not active`);
       sendAccessResponse(false, { cardId });
     }
   });
@@ -107,6 +122,7 @@ function checkCardAccess(cardId) {
 
 function sendAccessResponse(granted, userData) {
   const response = granted ? 'GRANTED' : 'DENIED';
+  console.log('Sending response to client:', response, userData);
   
   if (port && port.isOpen) {
     port.write(`${response}\n`);
