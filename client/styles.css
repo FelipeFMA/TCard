@@ -942,17 +942,35 @@ main {
   padding: 0.75rem 1rem 0.75rem 2.5rem;
   border-radius: var(--radius);
   border: 1px solid var(--border-color);
-  background: rgba(255, 255, 255, 0.7);
   color: var(--text-primary);
   transition: var(--transition-normal);
   font-family: 'Montserrat', sans-serif;
   letter-spacing: 0.03em;
+  
+  /* Apply admin-password styles */
+  background-color: rgba(255, 255, 255, 0.15);
+  padding: 10px 12px 10px 2.5rem;
+  font-size: 16px;
+}
+
+.search-bar input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .search-bar input:focus {
   outline: none;
   box-shadow: 0 0 0 2px var(--primary-color);
   border-color: var(--primary-color);
+}
+
+.dark-mode .search-bar input {
+  color: #ffffff;
+  background-color: rgba(20, 25, 35, 0.6);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.dark-mode .search-bar input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
 }
 
 table {
@@ -1240,6 +1258,16 @@ tbody tr:hover {
   transition: var(--transition-normal);
   font-family: 'Montserrat', sans-serif;
   letter-spacing: 0.02em;
+  
+  /* Apply admin-password styles */
+  background-color: rgba(255, 255, 255, 0.15);
+  padding: 10px 12px;
+  font-size: 16px;
+}
+
+.form-group input::placeholder,
+.form-group select::placeholder {
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .form-group input:focus,
@@ -1248,6 +1276,19 @@ tbody tr:hover {
   box-shadow: 0 0 0 2px var(--primary-color);
   border-color: var(--primary-color);
   background-color: white;
+}
+
+/* Ensure dark mode styles apply to all inputs */
+.dark-mode .form-group input,
+.dark-mode .form-group select {
+  color: #ffffff;
+  background-color: rgba(20, 25, 35, 0.6);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.dark-mode .form-group input::placeholder,
+.dark-mode .form-group select::placeholder {
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .card-id-input-container {
