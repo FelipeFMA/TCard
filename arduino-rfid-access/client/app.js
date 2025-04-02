@@ -28,11 +28,53 @@ const confirmAction = document.getElementById('confirm-action');
 const searchUsers = document.getElementById('search-users');
 const notificationContainer = document.getElementById('notification-container');
 
+// Create auth modal elements
+const authModal = document.createElement('div');
+authModal.id = 'auth-modal';
+authModal.className = 'modal';
+authModal.innerHTML = `
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Management Authentication</h3>
+      <button class="close-modal"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="auth-options">
+        <div class="auth-option">
+          <h4>Password Authentication</h4>
+          <div class="form-group">
+            <label for="admin-password">Password:</label>
+            <input type="password" id="admin-password" placeholder="Enter admin password">
+          </div>
+          <button id="btn-password-auth" class="button-primary">Login</button>
+        </div>
+        <div class="auth-divider">OR</div>
+        <div class="auth-option">
+          <h4>Admin Card Authentication</h4>
+          <p>Present your admin card to the reader</p>
+          <button id="btn-card-auth" class="button-secondary">
+            <i class="fas fa-credit-card"></i> Scan Admin Card
+          </button>
+        </div>
+      </div>
+      <div id="auth-status" class="hidden"></div>
+    </div>
+  </div>
+`;
+document.getElementById('app').appendChild(authModal);
+
+// Add new DOM elements
+const authStatusElement = document.getElementById('auth-status');
+const adminPasswordInput = document.getElementById('admin-password');
+const btnPasswordAuth = document.getElementById('btn-password-auth');
+const btnCardAuth = document.getElementById('btn-card-auth');
+
 // State
 let users = [];
 let currentUser = null;
 let isEditMode = false;
 let isScanningForId = false;
+let isAuthenticating = false;
 let actionToConfirm = null;
 let isDarkMode = true; // Always use dark mode
 
@@ -42,12 +84,16 @@ btnAdminMode.addEventListener('click', () => switchView('admin'));
 btnAddUser.addEventListener('click', () => openUserModal());
 btnScanForId.addEventListener('click', startScanningForId);
 searchUsers.addEventListener('input', filterUsers);
+btnPasswordAuth.addEventListener('click', authenticateWithPassword);
+btnCardAuth.addEventListener('click', authenticateWithCard);
 
 document.querySelectorAll('.close-modal').forEach(button => {
   button.addEventListener('click', () => {
     userModal.classList.remove('open');
     confirmModal.classList.remove('open');
+    authModal.classList.remove('open');
     isScanningForId = false;
+    isAuthenticating = false;
   });
 });
 
@@ -86,12 +132,64 @@ function switchView(viewName) {
     btnAdminMode.classList.remove('active');
     resetAccessDisplay();
   } else if (viewName === 'admin') {
+    // Show authentication modal instead of switching directly
+    showAuthModal();
+  }
+}
+
+function showAuthModal() {
+  authModal.classList.add('open');
+  adminPasswordInput.value = '';
+  authStatusElement.classList.add('hidden');
+  isAuthenticating = false;
+}
+
+function authenticateWithPassword() {
+  const password = adminPasswordInput.value.trim();
+  
+  if (!password) {
+    showAuthError('Please enter a password');
+    return;
+  }
+  
+  // For demonstration, let's use a simple password "admin"
+  // In production, this should be properly secured and validated on the server
+  if (password === 'admin') {
+    authenticationSuccess();
+  } else {
+    showAuthError('Invalid password');
+  }
+}
+
+function authenticateWithCard() {
+  isAuthenticating = true;
+  showAuthStatus('Scanning for admin card...', 'info');
+  
+  // Request a card scan via the server
+  socket.emit('request-scan');
+}
+
+function showAuthStatus(message, type) {
+  authStatusElement.innerHTML = `<div class="auth-message ${type}">${message}</div>`;
+  authStatusElement.classList.remove('hidden');
+}
+
+function showAuthError(message) {
+  showAuthStatus(message, 'error');
+}
+
+function authenticationSuccess() {
+  showAuthStatus('Authentication successful', 'success');
+  setTimeout(() => {
+    authModal.classList.remove('open');
+    
+    // Switch to admin view
     userView.classList.remove('active');
     adminView.classList.add('active');
     btnUserMode.classList.remove('active');
     btnAdminMode.classList.add('active');
     loadUsers();
-  }
+  }, 1000);
 }
 
 function resetAccessDisplay() {
@@ -133,6 +231,18 @@ function requestCardScan() {
 
 function handleAccessEvent(event) {
   console.log('Received access event:', event);
+  
+  if (isAuthenticating) {
+    // Handle authentication with admin card
+    if (event.userData && event.userData.role === 'admin') {
+      isAuthenticating = false;
+      authenticationSuccess();
+    } else {
+      isAuthenticating = false;
+      showAuthError('Invalid admin card. Please use an authorized admin card.');
+    }
+    return;
+  }
   
   if (isScanningForId) {
     console.log('Adding card to form:', event.userData.cardId);

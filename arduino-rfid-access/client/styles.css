@@ -1489,4 +1489,207 @@ tbody tr:hover {
 @keyframes fade-in-green {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+/* Auth Modal Specific Styles */
+#auth-modal .modal-content {
+  max-width: 500px;
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  position: relative;
+}
+
+#auth-modal .modal-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--metal-gradient-light);
+  z-index: 0;
+}
+
+#auth-modal .modal-content::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--metal-highlight);
+  opacity: 0.5;
+  z-index: 0;
+  pointer-events: none;
+}
+
+#auth-modal .modal-header,
+#auth-modal .modal-body {
+  position: relative;
+  z-index: 1;
+  background: radial-gradient(ellipse at top left, rgba(142, 155, 174, 0.1) 0%, transparent 60%),
+              radial-gradient(ellipse at bottom right, rgba(126, 157, 140, 0.1) 0%, transparent 60%);
+}
+
+.auth-options {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.auth-option {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.auth-option::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--metal-gradient-light);
+  opacity: 0.3;
+  z-index: -1;
+}
+
+.auth-option h4 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: var(--primary-color);
+  font-size: 18px;
+}
+
+.auth-divider {
+  text-align: center;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin: 10px 0;
+  position: relative;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background-color: var(--border-color);
+}
+
+.auth-divider::before {
+  left: 0;
+}
+
+.auth-divider::after {
+  right: 0;
+}
+
+#auth-status {
+  margin-top: 20px;
+}
+
+.auth-message {
+  padding: 10px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.auth-message.error {
+  background-color: var(--error-bg);
+  color: var(--error-color);
+}
+
+.auth-message.success {
+  background-color: var(--success-bg);
+  color: var(--success-color);
+}
+
+.auth-message.info {
+  background-color: var(--info-bg);
+  color: var(--info-color);
+}
+
+/* Add these variable definitions if they don't exist already */
+:root {
+  --error-bg: rgba(255, 76, 76, 0.1);
+  --error-color: #ff4c4c;
+  --success-bg: rgba(46, 204, 113, 0.1);
+  --success-color: #2ecc71;
+  --info-bg: rgba(52, 152, 219, 0.1);
+  --info-color: #3498db;
+}
+
+/* Ensure consistent button styling */
+#btn-password-auth, #btn-card-auth {
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* Dark mode specific auth styling */
+.dark-mode .auth-option {
+  background-color: var(--card-bg);
+  box-shadow: var(--shadow), 0 2px 8px rgba(0, 0, 0, 0.3);
+  border-color: var(--border-color);
+}
+
+.dark-mode .auth-option::before {
+  background: var(--metal-gradient-dark);
+  opacity: 0.4;
+}
+
+.dark-mode #auth-modal .modal-content {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+.dark-mode #auth-modal .modal-content::before {
+  background: var(--metal-gradient-dark);
+}
+
+.dark-mode .auth-message.error {
+  background-color: rgba(255, 76, 76, 0.15);
+}
+
+.dark-mode .auth-message.success {
+  background-color: rgba(46, 204, 113, 0.15);
+}
+
+.dark-mode .auth-message.info {
+  background-color: rgba(52, 152, 219, 0.15);
+}
+
+#admin-password {
+  color: var(--text-primary);
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid var(--border-color);
+  padding: 10px 12px;
+  font-size: 16px;
+  width: 100%;
+}
+
+#admin-password::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Ensure good visibility in dark mode */
+.dark-mode #admin-password {
+  color: #ffffff;
+  background-color: rgba(20, 25, 35, 0.6);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.dark-mode #admin-password::placeholder {
+  color: rgba(200, 200, 200, 0.5);
 } 
