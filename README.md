@@ -60,7 +60,7 @@ Connect the RFID-RC522 module to Arduino UNO:
 
 2. Start the server:
    ```bash
-   npm run dev
+   npm start
    ```
 
 3. Access the web interface:
