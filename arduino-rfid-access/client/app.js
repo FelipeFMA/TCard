@@ -34,12 +34,11 @@ let currentUser = null;
 let isEditMode = false;
 let isScanningForId = false;
 let actionToConfirm = null;
-let isDarkMode = localStorage.getItem('darkMode') === 'true';
+let isDarkMode = true; // Always use dark mode
 
 // Event Listeners
 btnUserMode.addEventListener('click', () => switchView('user'));
 btnAdminMode.addEventListener('click', () => switchView('admin'));
-btnDarkMode.addEventListener('click', toggleDarkMode);
 btnAddUser.addEventListener('click', () => openUserModal());
 btnScanForId.addEventListener('click', startScanningForId);
 searchUsers.addEventListener('input', filterUsers);
@@ -70,16 +69,13 @@ socket.on('disconnect', () => {
 
 // Initialize app
 loadUsers();
-applyDarkModeIfNeeded();
+applyDarkMode();
 
 // Functions
-function applyDarkModeIfNeeded() {
-  if (isDarkMode) {
-    document.body.classList.add('dark-mode');
-    btnDarkMode.classList.add('active');
-    btnDarkMode.querySelector('i').classList.remove('fa-moon');
-    btnDarkMode.querySelector('i').classList.add('fa-sun');
-  }
+function applyDarkMode() {
+  document.body.classList.add('dark-mode');
+  // Hide dark mode button since we don't need it anymore
+  btnDarkMode.style.display = 'none';
 }
 
 function switchView(viewName) {
@@ -443,21 +439,4 @@ function showNotification(message, type = 'info') {
       }, 300);
     }
   }, 5000);
-}
-
-function toggleDarkMode() {
-  isDarkMode = !isDarkMode;
-  localStorage.setItem('darkMode', isDarkMode);
-  
-  if (isDarkMode) {
-    document.body.classList.add('dark-mode');
-    btnDarkMode.classList.add('active');
-    btnDarkMode.querySelector('i').classList.remove('fa-moon');
-    btnDarkMode.querySelector('i').classList.add('fa-sun');
-  } else {
-    document.body.classList.remove('dark-mode');
-    btnDarkMode.classList.remove('active');
-    btnDarkMode.querySelector('i').classList.remove('fa-sun');
-    btnDarkMode.querySelector('i').classList.add('fa-moon');
-  }
 } 
